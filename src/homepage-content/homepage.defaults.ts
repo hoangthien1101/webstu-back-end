@@ -23,7 +23,7 @@ export const DEFAULT_HOMEPAGE_SERVICES: Prisma.HomepageServiceCreateInput[] = [
     description:
       'Chụp ảnh chân dung, ảnh sản phẩm, thời trang với hệ thống đèn studio hiện đại bậc nhất.',
     icon: 'Camera',
-    color: 'from-pink-500/20 to-rose-500/20 text-pink-400 border-pink-500/30',
+    color: 'from-brand-accent/20 to-brand-accent/10 text-brand-accent border-brand-accent/30',
     order: 0,
     isActive: true,
   },
@@ -32,7 +32,7 @@ export const DEFAULT_HOMEPAGE_SERVICES: Prisma.HomepageServiceCreateInput[] = [
     description:
       'Không gian lý tưởng để quay vlog, phóng sự, talkshow với camera Sony Alpha chuyên dụng.',
     icon: 'Video',
-    color: 'from-violet-500/20 to-purple-500/20 text-violet-400 border-violet-500/30',
+    color: 'from-brand-primary/20 to-brand-secondary/20 text-brand-primary border-brand-primary/30',
     order: 1,
     isActive: true,
   },
@@ -41,7 +41,7 @@ export const DEFAULT_HOMEPAGE_SERVICES: Prisma.HomepageServiceCreateInput[] = [
     description:
       'Phòng podcast cách âm tuyệt đối cùng micro Rode chuyên nghiệp thu trọn vẹn cảm xúc.',
     icon: 'Mic',
-    color: 'from-blue-500/20 to-indigo-500/20 text-blue-400 border-blue-500/30',
+    color: 'from-cyan-500/20 to-sky-500/20 text-cyan-400 border-sky-500/30',
     order: 2,
     isActive: true,
   },

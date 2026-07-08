@@ -61,9 +61,9 @@ export declare class BorrowRequestController {
                 createdAt: Date;
                 id: string;
                 name: string;
+                description: string;
                 code: string;
                 category: string;
-                description: string;
                 image: string;
                 quantity: number;
                 availableQuantity: number;

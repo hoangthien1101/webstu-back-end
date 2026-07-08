@@ -86,6 +86,21 @@ async function main() {
         await prisma.homepageService.createMany({ data: homepage_defaults_1.DEFAULT_HOMEPAGE_SERVICES });
         console.log('Default HomepageService items seeded.');
     }
+    else {
+        console.log('Updating HomepageService colors in database...');
+        for (const defaultService of homepage_defaults_1.DEFAULT_HOMEPAGE_SERVICES) {
+            const existing = await prisma.homepageService.findFirst({
+                where: { title: defaultService.title }
+            });
+            if (existing) {
+                await prisma.homepageService.update({
+                    where: { id: existing.id },
+                    data: { color: defaultService.color }
+                });
+            }
+        }
+        console.log('HomepageService colors updated.');
+    }
     const galleryCount = await prisma.homepageGallery.count();
     if (galleryCount === 0) {
         await prisma.homepageGallery.createMany({ data: homepage_defaults_1.DEFAULT_HOMEPAGE_GALLERY });

@@ -24,8 +24,8 @@ export declare class HomepageAggregateService {
             updatedAt: Date;
             createdAt: Date;
             id: string;
-            description: string;
             title: string;
+            description: string;
             icon: string;
             color: string;
             order: number;

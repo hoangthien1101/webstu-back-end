@@ -9,8 +9,8 @@ export declare class HomepageServiceService {
         updatedAt: Date;
         createdAt: Date;
         id: string;
-        description: string;
         title: string;
+        description: string;
         icon: string;
         color: string;
         order: number;
@@ -20,8 +20,8 @@ export declare class HomepageServiceService {
         updatedAt: Date;
         createdAt: Date;
         id: string;
-        description: string;
         title: string;
+        description: string;
         icon: string;
         color: string;
         order: number;
@@ -31,8 +31,8 @@ export declare class HomepageServiceService {
         updatedAt: Date;
         createdAt: Date;
         id: string;
-        description: string;
         title: string;
+        description: string;
         icon: string;
         color: string;
         order: number;
@@ -42,8 +42,8 @@ export declare class HomepageServiceService {
         updatedAt: Date;
         createdAt: Date;
         id: string;
-        description: string;
         title: string;
+        description: string;
         icon: string;
         color: string;
         order: number;
@@ -53,8 +53,8 @@ export declare class HomepageServiceService {
         updatedAt: Date;
         createdAt: Date;
         id: string;
-        description: string;
         title: string;
+        description: string;
         icon: string;
         color: string;
         order: number;
@@ -64,8 +64,8 @@ export declare class HomepageServiceService {
         updatedAt: Date;
         createdAt: Date;
         id: string;
-        description: string;
         title: string;
+        description: string;
         icon: string;
         color: string;
         order: number;
