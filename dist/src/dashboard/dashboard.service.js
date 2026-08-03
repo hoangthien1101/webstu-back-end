@@ -150,6 +150,7 @@ let DashboardService = class DashboardService {
     }
     async getUsers() {
         return this.prisma.user.findMany({
+            where: { isActive: true },
             orderBy: { createdAt: 'desc' },
             select: {
                 id: true,
@@ -208,8 +209,9 @@ let DashboardService = class DashboardService {
         if (activeBorrows > 0 || activeBookings > 0) {
             throw new common_1.BadRequestException('Không thể xóa người dùng này do họ đang có yêu cầu mượn thiết bị hoặc đặt phòng chưa hoàn thành');
         }
-        return this.prisma.user.delete({
+        return this.prisma.user.update({
             where: { id: targetUserId },
+            data: { isActive: false },
         });
     }
 };

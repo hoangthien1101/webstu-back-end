@@ -123,7 +123,7 @@ let BorrowRequestService = class BorrowRequestService {
             equipments: enrichedEquipments,
         };
     }
-    async approve(id) {
+    async approve(id, body) {
         const request = await this.findOne(id);
         if (request.status !== client_1.RequestStatus.PENDING) {
             throw new common_1.BadRequestException('Yêu cầu phải ở trạng thái CHỜ DUYỆT mới có thể phê duyệt');
@@ -154,7 +154,10 @@ let BorrowRequestService = class BorrowRequestService {
         }
         return this.prisma.borrowRequest.update({
             where: { id },
-            data: { status: client_1.RequestStatus.APPROVED },
+            data: {
+                status: client_1.RequestStatus.APPROVED,
+                adminNote: body?.adminNote ? body.adminNote.trim() : null
+            },
         });
     }
     async reject(id, body) {
@@ -173,6 +176,7 @@ let BorrowRequestService = class BorrowRequestService {
             data: {
                 status: client_1.RequestStatus.REJECTED,
                 rejectReason: body.rejectReason.trim(),
+                adminNote: body.adminNote ? body.adminNote.trim() : null
             },
         });
     }

@@ -13,6 +13,9 @@ export declare class AuthController {
         fullName: string;
         role: import("@prisma/client").$Enums.Role;
         avatarUrl: string | null;
+        isActive: boolean;
+        verificationToken: string | null;
+        tokenExpiresAt: Date | null;
     }>;
     login(loginDto: LoginDto): Promise<{
         accessToken: string;
@@ -34,6 +37,9 @@ export declare class AuthController {
         fullName: string;
         role: import("@prisma/client").$Enums.Role;
         avatarUrl: string | null;
+        isActive: boolean;
+        verificationToken: string | null;
+        tokenExpiresAt: Date | null;
     }>;
     updateProfile(req: any, dto: {
         fullName: string;
@@ -47,8 +53,56 @@ export declare class AuthController {
         fullName: string;
         role: import("@prisma/client").$Enums.Role;
         avatarUrl: string | null;
+        isActive: boolean;
+        verificationToken: string | null;
+        tokenExpiresAt: Date | null;
     }>;
     uploadAvatar(req: any, file: Express.Multer.File): Promise<{
         avatarUrl: string | null;
+    }>;
+    verify(body: {
+        email: string;
+        otp: string;
+    }): Promise<{
+        accessToken: string;
+        user: {
+            updatedAt: Date;
+            createdAt: Date;
+            id: string;
+            email: string;
+            employeeCode: string;
+            fullName: string;
+            role: import("@prisma/client").$Enums.Role;
+            avatarUrl: string | null;
+            isActive: boolean;
+            verificationToken: string | null;
+            tokenExpiresAt: Date | null;
+        };
+    }>;
+    resendOtp(body: {
+        email: string;
+    }): Promise<{
+        message: string;
+    }>;
+    forgotPassword(body: {
+        email: string;
+    }): Promise<{
+        message: string;
+    }>;
+    resetPassword(body: {
+        email: string;
+        otp: string;
+        newPassword: string;
+    }): Promise<{
+        message: string;
+        accessToken: string;
+        user: {
+            id: string;
+            email: string;
+            fullName: string;
+            role: import("@prisma/client").$Enums.Role;
+            employeeCode: string;
+            avatarUrl: string | null;
+        };
     }>;
 }

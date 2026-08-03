@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { MailModule } from '../mail/mail.module';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
@@ -10,6 +11,7 @@ import { CloudinaryModule } from '../cloudinary/cloudinary.module';
   imports: [
     PassportModule,
     CloudinaryModule,
+    MailModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'super-secret-studio-key-replace-in-production',
       signOptions: { expiresIn: '7d' },

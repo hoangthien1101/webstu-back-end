@@ -39,6 +39,18 @@ let AuthController = class AuthController {
     async uploadAvatar(req, file) {
         return this.authService.uploadAvatar(req.user.id, file);
     }
+    verify(body) {
+        return this.authService.verify(body.email, body.otp);
+    }
+    resendOtp(body) {
+        return this.authService.resendOtp(body.email);
+    }
+    forgotPassword(body) {
+        return this.authService.forgotPassword(body.email);
+    }
+    resetPassword(body) {
+        return this.authService.resetPassword(body);
+    }
 };
 exports.AuthController = AuthController;
 __decorate([
@@ -82,6 +94,34 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "uploadAvatar", null);
+__decorate([
+    (0, common_1.Post)('verify'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "verify", null);
+__decorate([
+    (0, common_1.Post)('resend-otp'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "resendOtp", null);
+__decorate([
+    (0, common_1.Post)('forgot-password'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "forgotPassword", null);
+__decorate([
+    (0, common_1.Post)('reset-password'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "resetPassword", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

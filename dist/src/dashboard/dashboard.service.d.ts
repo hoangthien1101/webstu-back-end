@@ -65,5 +65,8 @@ export declare class DashboardService {
         password: string;
         role: import("@prisma/client").$Enums.Role;
         avatarUrl: string | null;
+        isActive: boolean;
+        verificationToken: string | null;
+        tokenExpiresAt: Date | null;
     }>;
 }

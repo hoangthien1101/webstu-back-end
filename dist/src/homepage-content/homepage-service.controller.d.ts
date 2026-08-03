@@ -9,67 +9,67 @@ export declare class HomepageServiceController {
         updatedAt: Date;
         createdAt: Date;
         id: string;
+        isActive: boolean;
         title: string;
         description: string;
         icon: string;
         color: string;
         order: number;
-        isActive: boolean;
     }[]>;
     getIcons(): readonly ["Camera", "Video", "Mic", "Music", "Image", "Monitor", "Headphones", "Film"];
     findOne(id: string): Promise<{
         updatedAt: Date;
         createdAt: Date;
         id: string;
+        isActive: boolean;
         title: string;
         description: string;
         icon: string;
         color: string;
         order: number;
-        isActive: boolean;
     }>;
     create(dto: CreateHomepageServiceDto): Promise<{
         updatedAt: Date;
         createdAt: Date;
         id: string;
+        isActive: boolean;
         title: string;
         description: string;
         icon: string;
         color: string;
         order: number;
-        isActive: boolean;
     }>;
     reorder(dto: ReorderItemsDto): Promise<{
         updatedAt: Date;
         createdAt: Date;
         id: string;
+        isActive: boolean;
         title: string;
         description: string;
         icon: string;
         color: string;
         order: number;
-        isActive: boolean;
     }[]>;
     update(id: string, dto: UpdateHomepageServiceDto): Promise<{
         updatedAt: Date;
         createdAt: Date;
         id: string;
+        isActive: boolean;
         title: string;
         description: string;
         icon: string;
         color: string;
         order: number;
-        isActive: boolean;
     }>;
     remove(id: string): Promise<{
         updatedAt: Date;
         createdAt: Date;
         id: string;
+        isActive: boolean;
         title: string;
         description: string;
         icon: string;
         color: string;
         order: number;
-        isActive: boolean;
     }>;
 }

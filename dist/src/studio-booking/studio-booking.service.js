@@ -131,7 +131,10 @@ let StudioBookingService = class StudioBookingService {
         }
         const approved = await this.prisma.studioBooking.update({
             where: { id },
-            data: { status: client_1.RequestStatus.APPROVED },
+            data: {
+                status: client_1.RequestStatus.APPROVED,
+                adminNote: body.adminNote ? body.adminNote.trim() : null
+            },
         });
         if (overlappingPending.length > 0) {
             await this.prisma.studioBooking.updateMany({
@@ -165,6 +168,7 @@ let StudioBookingService = class StudioBookingService {
             data: {
                 status: client_1.RequestStatus.REJECTED,
                 rejectReason: body.rejectReason.trim(),
+                adminNote: body.adminNote ? body.adminNote.trim() : null
             },
         });
     }

@@ -7,7 +7,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @Post('register')
   register(@Body() registerDto: RegisterDto) {
@@ -42,5 +42,25 @@ export class AuthController {
     @UploadedFile() file: Express.Multer.File
   ) {
     return this.authService.uploadAvatar(req.user.id, file);
+  }
+
+  @Post('verify')
+  verify(@Body() body: { email: string; otp: string }) {
+    return this.authService.verify(body.email, body.otp);
+  }
+
+  @Post('resend-otp')
+  resendOtp(@Body() body: { email: string }) {
+    return this.authService.resendOtp(body.email);
+  }
+
+  @Post('forgot-password')
+  forgotPassword(@Body() body: { email: string }) {
+    return this.authService.forgotPassword(body.email);
+  }
+
+  @Post('reset-password')
+  resetPassword(@Body() body: { email: string; otp: string; newPassword: string }) {
+    return this.authService.resetPassword(body);
   }
 }

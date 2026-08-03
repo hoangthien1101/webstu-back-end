@@ -11,6 +11,7 @@ export declare class StudioBookingService {
         status: import("@prisma/client").$Enums.RequestStatus;
         purpose: string;
         rejectReason: string | null;
+        adminNote: string | null;
         userId: string;
         participants: number;
         technicalSupport: boolean;
@@ -38,6 +39,7 @@ export declare class StudioBookingService {
         status: import("@prisma/client").$Enums.RequestStatus;
         purpose: string;
         rejectReason: string | null;
+        adminNote: string | null;
         userId: string;
         participants: number;
         technicalSupport: boolean;
@@ -59,6 +61,7 @@ export declare class StudioBookingService {
         status: import("@prisma/client").$Enums.RequestStatus;
         purpose: string;
         rejectReason: string | null;
+        adminNote: string | null;
         userId: string;
         participants: number;
         technicalSupport: boolean;
@@ -67,6 +70,7 @@ export declare class StudioBookingService {
     }>;
     approve(id: string, body: {
         force?: boolean;
+        adminNote?: string;
     }): Promise<{
         status: string;
         message: string;
@@ -82,6 +86,7 @@ export declare class StudioBookingService {
             status: import("@prisma/client").$Enums.RequestStatus;
             purpose: string;
             rejectReason: string | null;
+            adminNote: string | null;
             userId: string;
             participants: number;
             technicalSupport: boolean;
@@ -93,6 +98,7 @@ export declare class StudioBookingService {
     }>;
     reject(id: string, body: {
         rejectReason: string;
+        adminNote?: string;
     }): Promise<{
         updatedAt: Date;
         createdAt: Date;
@@ -101,6 +107,7 @@ export declare class StudioBookingService {
         status: import("@prisma/client").$Enums.RequestStatus;
         purpose: string;
         rejectReason: string | null;
+        adminNote: string | null;
         userId: string;
         participants: number;
         technicalSupport: boolean;

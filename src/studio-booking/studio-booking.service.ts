@@ -113,7 +113,7 @@ export class StudioBookingService {
     return booking;
   }
 
-  async approve(id: string, body: { force?: boolean }) {
+  async approve(id: string, body: { force?: boolean; adminNote?: string }) {
     const booking = await this.findOne(id);
     if (booking.status !== RequestStatus.PENDING) {
       throw new BadRequestException('Lịch đặt phải ở trạng thái CHỜ DUYỆT mới có thể phê duyệt');
@@ -140,7 +140,10 @@ export class StudioBookingService {
     // Proceed to approve
     const approved = await this.prisma.studioBooking.update({
       where: { id },
-      data: { status: RequestStatus.APPROVED },
+      data: { 
+        status: RequestStatus.APPROVED,
+        adminNote: body.adminNote ? body.adminNote.trim() : null
+      },
     });
 
     // Auto-reject other pending overlaps
@@ -162,7 +165,7 @@ export class StudioBookingService {
     };
   }
 
-  async reject(id: string, body: { rejectReason: string }) {
+  async reject(id: string, body: { rejectReason: string; adminNote?: string }) {
     const booking = await this.findOne(id);
     if (booking.status !== RequestStatus.PENDING) {
       throw new BadRequestException('Lịch đặt phải ở trạng thái CHỜ DUYỆT mới có thể từ chối');
@@ -181,6 +184,7 @@ export class StudioBookingService {
       data: {
         status: RequestStatus.REJECTED,
         rejectReason: body.rejectReason.trim(),
+        adminNote: body.adminNote ? body.adminNote.trim() : null
       },
     });
   }

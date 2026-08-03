@@ -4,7 +4,7 @@ import { EquipmentStatus, RequestStatus, Role } from '@prisma/client';
 
 @Injectable()
 export class DashboardService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async getStats() {
     // Current totals (independent of filters)
@@ -93,7 +93,7 @@ export class DashboardService {
 
     // 1. Group bookings and borrows by day in range
     const chartDataMap: { [key: string]: { date: string; borrows: number; bookings: number } } = {};
-    
+
     // Initialize map for all dates in range to show smooth time series
     const tempDate = new Date(start);
     while (tempDate <= end) {
@@ -177,6 +177,7 @@ export class DashboardService {
 
   async getUsers() {
     return this.prisma.user.findMany({
+      where: { isActive: true },
       orderBy: { createdAt: 'desc' },
       select: {
         id: true,
@@ -191,65 +192,66 @@ export class DashboardService {
   }
 
   async updateRole(adminId: string, targetUserId: string, newRole: Role) {
-    if (adminId === targetUserId) {
-      throw new BadRequestException('Bạn không thể tự thay đổi quyền hạn của chính mình');
-    }
-
-    const user = await this.prisma.user.findUnique({
-      where: { id: targetUserId },
-    });
-
-    if (!user) {
-      throw new BadRequestException('Không tìm thấy người dùng');
-    }
-
-    return this.prisma.user.update({
-      where: { id: targetUserId },
-      data: { role: newRole },
-      select: {
-        id: true,
-        fullName: true,
-        email: true,
-        role: true,
-      },
-    });
+  if (adminId === targetUserId) {
+    throw new BadRequestException('Bạn không thể tự thay đổi quyền hạn của chính mình');
   }
+
+  const user = await this.prisma.user.findUnique({
+    where: { id: targetUserId },
+  });
+
+  if (!user) {
+    throw new BadRequestException('Không tìm thấy người dùng');
+  }
+
+  return this.prisma.user.update({
+    where: { id: targetUserId },
+    data: { role: newRole },
+    select: {
+      id: true,
+      fullName: true,
+      email: true,
+      role: true,
+    },
+  });
+}
 
   async deleteUser(adminId: string, targetUserId: string) {
-    if (adminId === targetUserId) {
-      throw new BadRequestException('Bạn không thể tự xóa tài khoản của chính mình');
-    }
-
-    const user = await this.prisma.user.findUnique({
-      where: { id: targetUserId },
-    });
-
-    if (!user) {
-      throw new BadRequestException('Không tìm thấy người dùng');
-    }
-
-    const activeBorrows = await this.prisma.borrowRequest.count({
-      where: {
-        userId: targetUserId,
-        status: { in: [RequestStatus.PENDING, RequestStatus.APPROVED] },
-      },
-    });
-
-    const activeBookings = await this.prisma.studioBooking.count({
-      where: {
-        userId: targetUserId,
-        status: { in: [RequestStatus.PENDING, RequestStatus.APPROVED] },
-      },
-    });
-
-    if (activeBorrows > 0 || activeBookings > 0) {
-      throw new BadRequestException(
-        'Không thể xóa người dùng này do họ đang có yêu cầu mượn thiết bị hoặc đặt phòng chưa hoàn thành'
-      );
-    }
-
-    return this.prisma.user.delete({
-      where: { id: targetUserId },
-    });
+  if (adminId === targetUserId) {
+    throw new BadRequestException('Bạn không thể tự xóa tài khoản của chính mình');
   }
+
+  const user = await this.prisma.user.findUnique({
+    where: { id: targetUserId },
+  });
+
+  if (!user) {
+    throw new BadRequestException('Không tìm thấy người dùng');
+  }
+
+  const activeBorrows = await this.prisma.borrowRequest.count({
+    where: {
+      userId: targetUserId,
+      status: { in: [RequestStatus.PENDING, RequestStatus.APPROVED] },
+    },
+  });
+
+  const activeBookings = await this.prisma.studioBooking.count({
+    where: {
+      userId: targetUserId,
+      status: { in: [RequestStatus.PENDING, RequestStatus.APPROVED] },
+    },
+  });
+
+  if (activeBorrows > 0 || activeBookings > 0) {
+    throw new BadRequestException(
+      'Không thể xóa người dùng này do họ đang có yêu cầu mượn thiết bị hoặc đặt phòng chưa hoàn thành'
+    );
+  }
+
+  return this.prisma.user.update({
+    where: { id: targetUserId },
+    data: { isActive: false },
+  });
+}
 }

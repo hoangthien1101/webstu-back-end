@@ -11,6 +11,7 @@ export declare class StudioBookingController {
         status: import("@prisma/client").$Enums.RequestStatus;
         purpose: string;
         rejectReason: string | null;
+        adminNote: string | null;
         userId: string;
         participants: number;
         technicalSupport: boolean;
@@ -33,6 +34,7 @@ export declare class StudioBookingController {
         status: import("@prisma/client").$Enums.RequestStatus;
         purpose: string;
         rejectReason: string | null;
+        adminNote: string | null;
         userId: string;
         participants: number;
         technicalSupport: boolean;
@@ -41,6 +43,7 @@ export declare class StudioBookingController {
     })[]>;
     approve(id: string, body: {
         force?: boolean;
+        adminNote?: string;
     }): Promise<{
         status: string;
         message: string;
@@ -56,6 +59,7 @@ export declare class StudioBookingController {
             status: import("@prisma/client").$Enums.RequestStatus;
             purpose: string;
             rejectReason: string | null;
+            adminNote: string | null;
             userId: string;
             participants: number;
             technicalSupport: boolean;
@@ -67,6 +71,7 @@ export declare class StudioBookingController {
     }>;
     reject(id: string, body: {
         rejectReason: string;
+        adminNote?: string;
     }): Promise<{
         updatedAt: Date;
         createdAt: Date;
@@ -75,6 +80,7 @@ export declare class StudioBookingController {
         status: import("@prisma/client").$Enums.RequestStatus;
         purpose: string;
         rejectReason: string | null;
+        adminNote: string | null;
         userId: string;
         participants: number;
         technicalSupport: boolean;

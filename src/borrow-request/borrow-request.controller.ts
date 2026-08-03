@@ -32,13 +32,13 @@ export class BorrowRequestController {
 
   @Put(':id/approve')
   @Roles(Role.ADMIN)
-  approve(@Param('id') id: string) {
-    return this.borrowRequestService.approve(id);
+  approve(@Param('id') id: string, @Body() body: { adminNote?: string }) {
+    return this.borrowRequestService.approve(id, body);
   }
 
   @Put(':id/reject')
   @Roles(Role.ADMIN)
-  reject(@Param('id') id: string, @Body() body: { rejectReason: string }) {
+  reject(@Param('id') id: string, @Body() body: { rejectReason: string; adminNote?: string }) {
     return this.borrowRequestService.reject(id, body);
   }
 

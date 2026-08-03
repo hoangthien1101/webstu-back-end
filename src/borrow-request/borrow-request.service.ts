@@ -134,7 +134,7 @@ export class BorrowRequestService {
     };
   }
 
-  async approve(id: string) {
+  async approve(id: string, body?: { adminNote?: string }) {
     const request = await this.findOne(id);
     if (request.status !== RequestStatus.PENDING) {
       throw new BadRequestException('Yêu cầu phải ở trạng thái CHỜ DUYỆT mới có thể phê duyệt');
@@ -173,11 +173,14 @@ export class BorrowRequestService {
 
     return this.prisma.borrowRequest.update({
       where: { id },
-      data: { status: RequestStatus.APPROVED },
+      data: { 
+        status: RequestStatus.APPROVED,
+        adminNote: body?.adminNote ? body.adminNote.trim() : null
+      },
     });
   }
 
-  async reject(id: string, body: { rejectReason: string }) {
+  async reject(id: string, body: { rejectReason: string; adminNote?: string }) {
     const request = await this.findOne(id);
     if (request.status !== RequestStatus.PENDING) {
       throw new BadRequestException('Yêu cầu phải ở trạng thái CHỜ DUYỆT mới có thể từ chối');
@@ -196,6 +199,7 @@ export class BorrowRequestService {
       data: {
         status: RequestStatus.REJECTED,
         rejectReason: body.rejectReason.trim(),
+        adminNote: body.adminNote ? body.adminNote.trim() : null
       },
     });
   }
