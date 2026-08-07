@@ -38,8 +38,8 @@ let BorrowRequestController = class BorrowRequestController {
         }
         return request;
     }
-    approve(id) {
-        return this.borrowRequestService.approve(id);
+    approve(id, body) {
+        return this.borrowRequestService.approve(id, body);
     }
     reject(id, body) {
         return this.borrowRequestService.reject(id, body);
@@ -76,8 +76,9 @@ __decorate([
     (0, common_1.Put)(':id/approve'),
     (0, roles_decorator_1.Roles)(client_1.Role.ADMIN),
     __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], BorrowRequestController.prototype, "approve", null);
 __decorate([

@@ -19,6 +19,7 @@ export declare class BorrowRequestController {
         borrowDate: Date;
         returnDate: Date;
         rejectReason: string | null;
+        adminNote: string | null;
         userId: string;
         equipments: {
             equipmentId: string;
@@ -52,6 +53,7 @@ export declare class BorrowRequestController {
         borrowDate: Date;
         returnDate: Date;
         rejectReason: string | null;
+        adminNote: string | null;
         userId: string;
     }[]>;
     findOne(req: any, id: string): Promise<{
@@ -86,25 +88,11 @@ export declare class BorrowRequestController {
         borrowDate: Date;
         returnDate: Date;
         rejectReason: string | null;
+        adminNote: string | null;
         userId: string;
     }>;
-    approve(id: string): Promise<{
-        updatedAt: Date;
-        createdAt: Date;
-        id: string;
-        status: import("@prisma/client").$Enums.RequestStatus;
-        purpose: string;
-        borrowDate: Date;
-        returnDate: Date;
-        rejectReason: string | null;
-        userId: string;
-        equipments: {
-            equipmentId: string;
-            quantity: number;
-        }[];
-    }>;
-    reject(id: string, body: {
-        rejectReason: string;
+    approve(id: string, body: {
+        adminNote?: string;
     }): Promise<{
         updatedAt: Date;
         createdAt: Date;
@@ -114,6 +102,26 @@ export declare class BorrowRequestController {
         borrowDate: Date;
         returnDate: Date;
         rejectReason: string | null;
+        adminNote: string | null;
+        userId: string;
+        equipments: {
+            equipmentId: string;
+            quantity: number;
+        }[];
+    }>;
+    reject(id: string, body: {
+        rejectReason: string;
+        adminNote?: string;
+    }): Promise<{
+        updatedAt: Date;
+        createdAt: Date;
+        id: string;
+        status: import("@prisma/client").$Enums.RequestStatus;
+        purpose: string;
+        borrowDate: Date;
+        returnDate: Date;
+        rejectReason: string | null;
+        adminNote: string | null;
         userId: string;
         equipments: {
             equipmentId: string;
@@ -129,6 +137,7 @@ export declare class BorrowRequestController {
         borrowDate: Date;
         returnDate: Date;
         rejectReason: string | null;
+        adminNote: string | null;
         userId: string;
         equipments: {
             equipmentId: string;

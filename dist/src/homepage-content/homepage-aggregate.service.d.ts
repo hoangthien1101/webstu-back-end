@@ -24,20 +24,20 @@ export declare class HomepageAggregateService {
             updatedAt: Date;
             createdAt: Date;
             id: string;
+            isActive: boolean;
             title: string;
             description: string;
             icon: string;
             color: string;
             order: number;
-            isActive: boolean;
         }[];
         gallery: {
             updatedAt: Date;
             createdAt: Date;
             id: string;
+            isActive: boolean;
             title: string;
             order: number;
-            isActive: boolean;
             imageUrl: string;
         }[];
         sections: {

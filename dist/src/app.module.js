@@ -8,6 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
+const config_1 = require("@nestjs/config");
+const mailer_1 = require("@nestjs-modules/mailer");
 const prisma_module_1 = require("./prisma/prisma.module");
 const auth_module_1 = require("./auth/auth.module");
 const cloudinary_module_1 = require("./cloudinary/cloudinary.module");
@@ -23,6 +25,20 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            config_1.ConfigModule.forRoot({ isGlobal: true }),
+            mailer_1.MailerModule.forRoot({
+                transport: {
+                    host: process.env.SMTP_HOST,
+                    port: parseInt(process.env.SMTP_PORT || '587'),
+                    auth: {
+                        user: process.env.SMTP_USER,
+                        pass: process.env.SMTP_PASS,
+                    },
+                },
+                defaults: {
+                    from: '"LHU Media" <no-reply@webstu.com>',
+                },
+            }),
             prisma_module_1.PrismaModule,
             auth_module_1.AuthModule,
             cloudinary_module_1.CloudinaryModule,

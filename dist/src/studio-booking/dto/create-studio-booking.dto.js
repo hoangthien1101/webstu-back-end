@@ -31,6 +31,7 @@ __decorate([
     (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsInt)({ message: 'Số lượng người phải là số nguyên' }),
     (0, class_validator_1.Min)(1, { message: 'Số lượng người tối thiểu là 1' }),
+    (0, class_validator_1.Max)(40, { message: 'Số lượng người tham gia tối đa là 40 người' }),
     __metadata("design:type", Number)
 ], CreateStudioBookingDto.prototype, "participants", void 0);
 __decorate([

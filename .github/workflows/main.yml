@@ -19,7 +19,8 @@ jobs:
           cd /home/webstu-back-end
           git fetch origin
           git checkout production
-          git pull
+          git pull 
           npm install
+          npx prisma generate
           npm run build
-          pm2 reload back
+          pm2 reload back --update-env

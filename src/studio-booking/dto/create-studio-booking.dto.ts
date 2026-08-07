@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsInt, Min, IsBoolean, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsString, IsInt, Min, Max, IsBoolean, MaxLength } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateStudioBookingDto {
@@ -10,6 +10,7 @@ export class CreateStudioBookingDto {
   @Type(() => Number)
   @IsInt({ message: 'Số lượng người phải là số nguyên' })
   @Min(1, { message: 'Số lượng người tối thiểu là 1' })
+  @Max(40, { message: 'Số lượng người tham gia tối đa là 40 người' })
   participants: number;
 
   @IsNotEmpty({ message: 'Mục đích sử dụng không được để trống' })

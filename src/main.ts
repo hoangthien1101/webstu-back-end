@@ -4,7 +4,13 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  // Enable graceful shutdown to release the port on hot-reload
+  app.enableShutdownHooks();
+  // Handle termination signals for clean exit
+  process.on('SIGTERM', async () => {
+    await app.close();
+    process.exit(0);
+  });
   // Global Route Prefix
   app.setGlobalPrefix('api');
 
@@ -24,7 +30,7 @@ async function bootstrap() {
     }),
   );
 
-  const port = process.env.PORT || 5000;
+  const port = parseInt(process.env.PORT ?? '5000');
   await app.listen(port);
   console.log(`🚀 Backend is running on: http://localhost:${port}/api`);
 }

@@ -9,54 +9,54 @@ export declare class HomepageGalleryService {
         updatedAt: Date;
         createdAt: Date;
         id: string;
+        isActive: boolean;
         title: string;
         order: number;
-        isActive: boolean;
         imageUrl: string;
     }[]>;
     findOne(id: string): Promise<{
         updatedAt: Date;
         createdAt: Date;
         id: string;
+        isActive: boolean;
         title: string;
         order: number;
-        isActive: boolean;
         imageUrl: string;
     }>;
     create(dto: CreateHomepageGalleryDto): Promise<{
         updatedAt: Date;
         createdAt: Date;
         id: string;
+        isActive: boolean;
         title: string;
         order: number;
-        isActive: boolean;
         imageUrl: string;
     }>;
     update(id: string, dto: UpdateHomepageGalleryDto): Promise<{
         updatedAt: Date;
         createdAt: Date;
         id: string;
+        isActive: boolean;
         title: string;
         order: number;
-        isActive: boolean;
         imageUrl: string;
     }>;
     remove(id: string): Promise<{
         updatedAt: Date;
         createdAt: Date;
         id: string;
+        isActive: boolean;
         title: string;
         order: number;
-        isActive: boolean;
         imageUrl: string;
     }>;
     reorder(dto: ReorderItemsDto): Promise<{
         updatedAt: Date;
         createdAt: Date;
         id: string;
+        isActive: boolean;
         title: string;
         order: number;
-        isActive: boolean;
         imageUrl: string;
     }[]>;
 }

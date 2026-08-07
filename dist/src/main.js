@@ -5,6 +5,11 @@ const app_module_1 = require("./app.module");
 const common_1 = require("@nestjs/common");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    app.enableShutdownHooks();
+    process.on('SIGTERM', async () => {
+        await app.close();
+        process.exit(0);
+    });
     app.setGlobalPrefix('api');
     app.enableCors({
         origin: '*',
@@ -16,7 +21,7 @@ async function bootstrap() {
         transform: true,
         forbidNonWhitelisted: true,
     }));
-    const port = process.env.PORT || 5000;
+    const port = parseInt(process.env.PORT ?? '5000');
     await app.listen(port);
     console.log(`🚀 Backend is running on: http://localhost:${port}/api`);
 }

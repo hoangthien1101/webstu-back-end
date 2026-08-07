@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthModule = void 0;
 const common_1 = require("@nestjs/common");
+const mail_module_1 = require("../mail/mail.module");
 const auth_service_1 = require("./auth.service");
 const auth_controller_1 = require("./auth.controller");
 const jwt_1 = require("@nestjs/jwt");
@@ -22,6 +23,7 @@ exports.AuthModule = AuthModule = __decorate([
         imports: [
             passport_1.PassportModule,
             cloudinary_module_1.CloudinaryModule,
+            mail_module_1.MailModule,
             jwt_1.JwtModule.register({
                 secret: process.env.JWT_SECRET || 'super-secret-studio-key-replace-in-production',
                 signOptions: { expiresIn: '7d' },
