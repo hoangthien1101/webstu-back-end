@@ -78,13 +78,13 @@ let DashboardService = class DashboardService {
         }
         const borrows = await this.prisma.borrowRequest.findMany({
             where: {
-                status: client_1.RequestStatus.APPROVED,
+                status: { in: [client_1.RequestStatus.APPROVED, client_1.RequestStatus.RETURNED] },
                 createdAt: { gte: start, lte: end },
             },
         });
         const bookings = await this.prisma.studioBooking.findMany({
             where: {
-                status: client_1.RequestStatus.APPROVED,
+                status: { in: [client_1.RequestStatus.APPROVED, client_1.RequestStatus.RETURNED] },
                 startTime: { gte: start, lte: end },
             },
         });
@@ -193,21 +193,6 @@ let DashboardService = class DashboardService {
         });
         if (!user) {
             throw new common_1.BadRequestException('Không tìm thấy người dùng');
-        }
-        const activeBorrows = await this.prisma.borrowRequest.count({
-            where: {
-                userId: targetUserId,
-                status: { in: [client_1.RequestStatus.PENDING, client_1.RequestStatus.APPROVED] },
-            },
-        });
-        const activeBookings = await this.prisma.studioBooking.count({
-            where: {
-                userId: targetUserId,
-                status: { in: [client_1.RequestStatus.PENDING, client_1.RequestStatus.APPROVED] },
-            },
-        });
-        if (activeBorrows > 0 || activeBookings > 0) {
-            throw new common_1.BadRequestException('Không thể xóa người dùng này do họ đang có yêu cầu mượn thiết bị hoặc đặt phòng chưa hoàn thành');
         }
         return this.prisma.user.update({
             where: { id: targetUserId },

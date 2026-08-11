@@ -31,6 +31,9 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
         if (!user) {
             throw new common_1.UnauthorizedException('Không tìm thấy người dùng');
         }
+        if (!user.isActive) {
+            throw new common_1.UnauthorizedException('Tài khoản của bạn đã bị khóa hoặc vô hiệu hóa');
+        }
         return {
             id: user.id,
             email: user.email,

@@ -20,6 +20,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     if (!user) {
       throw new UnauthorizedException('Không tìm thấy người dùng');
     }
+    if (!user.isActive) {
+      throw new UnauthorizedException('Tài khoản của bạn đã bị khóa hoặc vô hiệu hóa');
+    }
     return {
       id: user.id,
       email: user.email,
