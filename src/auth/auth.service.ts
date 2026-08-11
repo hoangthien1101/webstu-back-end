@@ -58,8 +58,11 @@ export class AuthService {
     if (!isPasswordValid) {
       throw new UnauthorizedException('Email hoặc Mật khẩu không chính xác');
     }
+
     if (!user.isActive) {
-      // Generate new OTP and send restoration email
+      if (!user.verificationToken) {
+        throw new ForbiddenException('Tài khoản của bạn đã bị khóa hoặc vô hiệu hóa. Vui lòng liên hệ Admin.');
+      }
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
       const tokenExpires = new Date(Date.now() + 15 * 60 * 1000);
       await this.prisma.user.update({
@@ -67,15 +70,15 @@ export class AuthService {
         data: { verificationToken: otp, tokenExpiresAt: tokenExpires },
       });
       await this.mailService.sendVerificationEmail(user.email, otp);
-      // Throw 403 with activation required info
       throw new ForbiddenException({
         statusCode: 403,
         requiresActivation: true,
         email: user.email,
         message:
-          'Tài khoản của bạn đã bị vô hiệu hóa. Mã OTP khôi phục đã được gửi về Email.',
+          'Tài khoản của bạn chưa được kích hoạt. Mã OTP xác thực đã được gửi về Email.',
       });
     }
+
     const payload = { sub: user.id, email: user.email, role: user.role };
     return {
       accessToken: this.jwtService.sign(payload),

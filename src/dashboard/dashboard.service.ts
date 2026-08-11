@@ -75,18 +75,22 @@ export class DashboardService {
       start.setHours(0, 0, 0, 0);
     }
 
-    // Fetch approved borrow requests in range
+
+
+
+
+    // Fetch valid borrow requests in range
     const borrows = await this.prisma.borrowRequest.findMany({
       where: {
-        status: RequestStatus.APPROVED,
+        status: { in: [RequestStatus.APPROVED, RequestStatus.RETURNED] },
         createdAt: { gte: start, lte: end },
       },
     });
 
-    // Fetch approved studio bookings in range
+    // Fetch valid studio bookings in range
     const bookings = await this.prisma.studioBooking.findMany({
       where: {
-        status: RequestStatus.APPROVED,
+        status: { in: [RequestStatus.APPROVED, RequestStatus.RETURNED] },
         startTime: { gte: start, lte: end },
       },
     });
@@ -217,41 +221,21 @@ export class DashboardService {
 }
 
   async deleteUser(adminId: string, targetUserId: string) {
-  if (adminId === targetUserId) {
-    throw new BadRequestException('Bạn không thể tự xóa tài khoản của chính mình');
+    if (adminId === targetUserId) {
+      throw new BadRequestException('Bạn không thể tự xóa tài khoản của chính mình');
+    }
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: targetUserId },
+    });
+
+    if (!user) {
+      throw new BadRequestException('Không tìm thấy người dùng');
+    }
+
+    return this.prisma.user.update({
+      where: { id: targetUserId },
+      data: { isActive: false },
+    });
   }
-
-  const user = await this.prisma.user.findUnique({
-    where: { id: targetUserId },
-  });
-
-  if (!user) {
-    throw new BadRequestException('Không tìm thấy người dùng');
-  }
-
-  const activeBorrows = await this.prisma.borrowRequest.count({
-    where: {
-      userId: targetUserId,
-      status: { in: [RequestStatus.PENDING, RequestStatus.APPROVED] },
-    },
-  });
-
-  const activeBookings = await this.prisma.studioBooking.count({
-    where: {
-      userId: targetUserId,
-      status: { in: [RequestStatus.PENDING, RequestStatus.APPROVED] },
-    },
-  });
-
-  if (activeBorrows > 0 || activeBookings > 0) {
-    throw new BadRequestException(
-      'Không thể xóa người dùng này do họ đang có yêu cầu mượn thiết bị hoặc đặt phòng chưa hoàn thành'
-    );
-  }
-
-  return this.prisma.user.update({
-    where: { id: targetUserId },
-    data: { isActive: false },
-  });
-}
 }

@@ -75,6 +75,12 @@ let EquipmentService = class EquipmentService {
         return equipment;
     }
     async create(dto) {
+        if (dto.status === client_1.EquipmentStatus.BORROWED) {
+            throw new common_1.BadRequestException('Trạng thái Đang mượn chỉ được kích hoạt tự động qua luồng duyệt đơn');
+        }
+        if (dto.status && dto.status !== client_1.EquipmentStatus.AVAILABLE && dto.status !== client_1.EquipmentStatus.MAINTENANCE) {
+            throw new common_1.BadRequestException('Trạng thái không hợp lệ. Chỉ được chọn Sẵn sàng hoặc Bảo trì.');
+        }
         await this.validateCategory(dto.category);
         const existing = await this.prisma.equipment.findUnique({
             where: { code: dto.code },
@@ -92,6 +98,15 @@ let EquipmentService = class EquipmentService {
     }
     async update(id, dto) {
         const equipment = await this.findOne(id);
+        if (dto.status === client_1.EquipmentStatus.BORROWED && equipment.status !== client_1.EquipmentStatus.BORROWED) {
+            throw new common_1.BadRequestException('Trạng thái Đang mượn chỉ được kích hoạt tự động qua luồng duyệt đơn');
+        }
+        if (dto.status && dto.status !== client_1.EquipmentStatus.AVAILABLE && dto.status !== client_1.EquipmentStatus.MAINTENANCE && dto.status !== client_1.EquipmentStatus.BORROWED) {
+            throw new common_1.BadRequestException('Trạng thái không hợp lệ. Chỉ được chọn Sẵn sàng hoặc Bảo trì.');
+        }
+        if (equipment.status === client_1.EquipmentStatus.BORROWED && dto.status !== undefined && dto.status !== client_1.EquipmentStatus.BORROWED) {
+            throw new common_1.BadRequestException('Không thể thay đổi trạng thái khi thiết bị đang được cho mượn');
+        }
         if (dto.category) {
             await this.validateCategory(dto.category);
         }
