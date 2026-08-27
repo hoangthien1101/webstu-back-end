@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MailModule } from '../mail/mail.module';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
+import { AdminUserController } from './admin-user.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
@@ -17,7 +18,7 @@ import { CloudinaryModule } from '../cloudinary/cloudinary.module';
       signOptions: { expiresIn: '7d' },
     }),
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, AdminUserController],
   providers: [AuthService, JwtStrategy],
   exports: [AuthService],
 })

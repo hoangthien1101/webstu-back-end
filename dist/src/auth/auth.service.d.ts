@@ -2,6 +2,7 @@ import { MailService } from '../mail/mail.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { CreateUserByAdminDto } from './dto/create-user-by-admin.dto';
 import { JwtService } from '@nestjs/jwt';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 export declare class AuthService {
@@ -19,6 +20,7 @@ export declare class AuthService {
         fullName: string;
         role: import("@prisma/client").$Enums.Role;
         avatarUrl: string | null;
+        phone: string | null;
         isActive: boolean;
         verificationToken: string | null;
         tokenExpiresAt: Date | null;
@@ -43,6 +45,7 @@ export declare class AuthService {
         fullName: string;
         role: import("@prisma/client").$Enums.Role;
         avatarUrl: string | null;
+        phone: string | null;
         isActive: boolean;
         verificationToken: string | null;
         tokenExpiresAt: Date | null;
@@ -59,6 +62,7 @@ export declare class AuthService {
         fullName: string;
         role: import("@prisma/client").$Enums.Role;
         avatarUrl: string | null;
+        phone: string | null;
         isActive: boolean;
         verificationToken: string | null;
         tokenExpiresAt: Date | null;
@@ -77,6 +81,7 @@ export declare class AuthService {
             fullName: string;
             role: import("@prisma/client").$Enums.Role;
             avatarUrl: string | null;
+            phone: string | null;
             isActive: boolean;
             verificationToken: string | null;
             tokenExpiresAt: Date | null;
@@ -103,5 +108,19 @@ export declare class AuthService {
             employeeCode: string;
             avatarUrl: string | null;
         };
+    }>;
+    createUserByAdmin(dto: CreateUserByAdminDto): Promise<{
+        updatedAt: Date;
+        createdAt: Date;
+        id: string;
+        email: string;
+        employeeCode: string;
+        fullName: string;
+        role: import("@prisma/client").$Enums.Role;
+        avatarUrl: string | null;
+        phone: string | null;
+        isActive: boolean;
+        verificationToken: string | null;
+        tokenExpiresAt: Date | null;
     }>;
 }

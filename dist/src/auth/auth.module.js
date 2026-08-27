@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const mail_module_1 = require("../mail/mail.module");
 const auth_service_1 = require("./auth.service");
 const auth_controller_1 = require("./auth.controller");
+const admin_user_controller_1 = require("./admin-user.controller");
 const jwt_1 = require("@nestjs/jwt");
 const passport_1 = require("@nestjs/passport");
 const jwt_strategy_1 = require("./jwt.strategy");
@@ -29,7 +30,7 @@ exports.AuthModule = AuthModule = __decorate([
                 signOptions: { expiresIn: '7d' },
             }),
         ],
-        controllers: [auth_controller_1.AuthController],
+        controllers: [auth_controller_1.AuthController, admin_user_controller_1.AdminUserController],
         providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy],
         exports: [auth_service_1.AuthService],
     })
