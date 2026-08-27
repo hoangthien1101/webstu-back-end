@@ -18,7 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "prisma:repair-homepage": "ts-node prisma/repair-homepage-content.ts"
+    "prisma:repair-homepage": "ts-node prisma/repair-homepage-content.ts",
+    "prisma:import-devices": "ts-node prisma/import-devices.ts"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.3.7",

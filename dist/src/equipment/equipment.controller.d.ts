@@ -13,9 +13,9 @@ export declare class EquipmentController {
             createdAt: Date;
             id: string;
             name: string;
-            description: string;
             code: string;
             category: string;
+            description: string;
             image: string;
             quantity: number;
             availableQuantity: number;
@@ -32,9 +32,9 @@ export declare class EquipmentController {
         createdAt: Date;
         id: string;
         name: string;
-        description: string;
         code: string;
         category: string;
+        description: string;
         image: string;
         quantity: number;
         availableQuantity: number;
@@ -45,9 +45,9 @@ export declare class EquipmentController {
         createdAt: Date;
         id: string;
         name: string;
-        description: string;
         code: string;
         category: string;
+        description: string;
         image: string;
         quantity: number;
         availableQuantity: number;
@@ -61,9 +61,9 @@ export declare class EquipmentController {
         createdAt: Date;
         id: string;
         name: string;
-        description: string;
         code: string;
         category: string;
+        description: string;
         image: string;
         quantity: number;
         availableQuantity: number;
@@ -74,9 +74,9 @@ export declare class EquipmentController {
         createdAt: Date;
         id: string;
         name: string;
-        description: string;
         code: string;
         category: string;
+        description: string;
         image: string;
         quantity: number;
         availableQuantity: number;
