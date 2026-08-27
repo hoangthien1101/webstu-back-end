@@ -25,10 +25,10 @@ export declare class HomepageAggregateService {
             createdAt: Date;
             id: string;
             isActive: boolean;
-            title: string;
             description: string;
-            icon: string;
             color: string;
+            title: string;
+            icon: string;
             order: number;
         }[];
         gallery: {

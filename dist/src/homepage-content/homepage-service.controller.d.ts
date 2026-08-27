@@ -10,10 +10,10 @@ export declare class HomepageServiceController {
         createdAt: Date;
         id: string;
         isActive: boolean;
-        title: string;
         description: string;
-        icon: string;
         color: string;
+        title: string;
+        icon: string;
         order: number;
     }[]>;
     getIcons(): readonly ["Camera", "Video", "Mic", "Music", "Image", "Monitor", "Headphones", "Film"];
@@ -22,10 +22,10 @@ export declare class HomepageServiceController {
         createdAt: Date;
         id: string;
         isActive: boolean;
-        title: string;
         description: string;
-        icon: string;
         color: string;
+        title: string;
+        icon: string;
         order: number;
     }>;
     create(dto: CreateHomepageServiceDto): Promise<{
@@ -33,10 +33,10 @@ export declare class HomepageServiceController {
         createdAt: Date;
         id: string;
         isActive: boolean;
-        title: string;
         description: string;
-        icon: string;
         color: string;
+        title: string;
+        icon: string;
         order: number;
     }>;
     reorder(dto: ReorderItemsDto): Promise<{
@@ -44,10 +44,10 @@ export declare class HomepageServiceController {
         createdAt: Date;
         id: string;
         isActive: boolean;
-        title: string;
         description: string;
-        icon: string;
         color: string;
+        title: string;
+        icon: string;
         order: number;
     }[]>;
     update(id: string, dto: UpdateHomepageServiceDto): Promise<{
@@ -55,10 +55,10 @@ export declare class HomepageServiceController {
         createdAt: Date;
         id: string;
         isActive: boolean;
-        title: string;
         description: string;
-        icon: string;
         color: string;
+        title: string;
+        icon: string;
         order: number;
     }>;
     remove(id: string): Promise<{
@@ -66,10 +66,10 @@ export declare class HomepageServiceController {
         createdAt: Date;
         id: string;
         isActive: boolean;
-        title: string;
         description: string;
-        icon: string;
         color: string;
+        title: string;
+        icon: string;
         order: number;
     }>;
 }

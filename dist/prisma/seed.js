@@ -55,12 +55,38 @@ async function main() {
                 password: hashedPassword,
                 employeeCode: 'ADMIN001',
                 role: client_1.Role.ADMIN,
+                isActive: true,
             },
         });
         console.log('Admin account created:', admin.email);
     }
     else {
         console.log('Admin account already exists:', existingAdmin.email);
+    }
+    const hoangThienId = '6a700fd2a1cda912d86d15ec';
+    const hoangThienEmail = 'hoangthien110104@gmail.com';
+    const existingHoangThien = await prisma.user.findUnique({
+        where: { email: hoangThienEmail },
+    });
+    if (!existingHoangThien) {
+        await prisma.user.create({
+            data: {
+                id: hoangThienId,
+                fullName: 'Hoàng Thiện',
+                email: hoangThienEmail,
+                password: '$2b$10$9BN8h8L6bITtQ0FsqT0G8eML6L0tCKsxvhecTEbYDZkU1OQCGtgqy',
+                employeeCode: 'NV001344',
+                role: client_1.Role.ADMIN,
+                isActive: true,
+                avatarUrl: null,
+                verificationToken: null,
+                tokenExpiresAt: null,
+            },
+        });
+        console.log('Hoàng Thiện admin account created:', hoangThienEmail);
+    }
+    else {
+        console.log('Hoàng Thiện account already exists:', existingHoangThien.email);
     }
     const defaultCategories = ['Máy ảnh', 'Micro', 'Đèn', 'Tripod', 'Lens'];
     for (const catName of defaultCategories) {
@@ -74,43 +100,18 @@ async function main() {
             console.log(`Category seeded: ${catName}`);
         }
     }
-    const homepageCount = await prisma.homepageContent.count();
-    if (homepageCount === 0) {
-        await prisma.homepageContent.create({
-            data: homepage_content_defaults_1.DEFAULT_HOMEPAGE_CONTENT,
-        });
-        console.log('Default HomepageContent seeded.');
-    }
-    const serviceCount = await prisma.homepageService.count();
-    if (serviceCount === 0) {
-        await prisma.homepageService.createMany({ data: homepage_defaults_1.DEFAULT_HOMEPAGE_SERVICES });
-        console.log('Default HomepageService items seeded.');
-    }
-    else {
-        console.log('Updating HomepageService colors in database...');
-        for (const defaultService of homepage_defaults_1.DEFAULT_HOMEPAGE_SERVICES) {
-            const existing = await prisma.homepageService.findFirst({
-                where: { title: defaultService.title }
-            });
-            if (existing) {
-                await prisma.homepageService.update({
-                    where: { id: existing.id },
-                    data: { color: defaultService.color }
-                });
-            }
-        }
-        console.log('HomepageService colors updated.');
-    }
-    const galleryCount = await prisma.homepageGallery.count();
-    if (galleryCount === 0) {
-        await prisma.homepageGallery.createMany({ data: homepage_defaults_1.DEFAULT_HOMEPAGE_GALLERY });
-        console.log('Default HomepageGallery items seeded.');
-    }
-    const sectionCount = await prisma.homepageSection.count();
-    if (sectionCount === 0) {
-        await prisma.homepageSection.create({ data: homepage_defaults_1.DEFAULT_HOMEPAGE_SECTION });
-        console.log('Default HomepageSection seeded.');
-    }
+    await prisma.homepageContent.deleteMany();
+    await prisma.homepageContent.create({ data: homepage_content_defaults_1.DEFAULT_HOMEPAGE_CONTENT });
+    console.log('✅ HomepageContent regenerated.');
+    await prisma.homepageService.deleteMany();
+    await prisma.homepageService.createMany({ data: homepage_defaults_1.DEFAULT_HOMEPAGE_SERVICES });
+    console.log('✅ HomepageService items regenerated.');
+    await prisma.homepageGallery.deleteMany();
+    await prisma.homepageGallery.createMany({ data: homepage_defaults_1.DEFAULT_HOMEPAGE_GALLERY });
+    console.log('✅ HomepageGallery items regenerated.');
+    await prisma.homepageSection.deleteMany();
+    await prisma.homepageSection.create({ data: homepage_defaults_1.DEFAULT_HOMEPAGE_SECTION });
+    console.log('✅ HomepageSection regenerated.');
     const equipmentCount = await prisma.equipment.count();
     if (equipmentCount === 0) {
         const sampleEquipments = [
