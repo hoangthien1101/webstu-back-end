@@ -10,6 +10,7 @@ generator client {
 enum Role {
   ADMIN
   USER
+  COLLABORATOR
 }
 
 enum EquipmentStatus {
@@ -33,6 +34,7 @@ model User {
   employeeCode String          @unique
   role         Role            @default(USER)
   avatarUrl    String?
+  phone        String?
   isActive          Boolean  @default(false)
   verificationToken String?  // 6‑digit OTP
   tokenExpiresAt    DateTime?

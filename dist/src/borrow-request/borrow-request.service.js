@@ -22,6 +22,12 @@ let BorrowRequestService = class BorrowRequestService {
         if (new Date(dto.borrowDate) >= new Date(dto.returnDate)) {
             throw new common_1.BadRequestException('Ngày trả phải sau ngày mượn');
         }
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+        });
+        if (!user) {
+            throw new common_1.BadRequestException('Không tìm thấy người dùng');
+        }
         for (const item of dto.equipments) {
             const equipment = await this.prisma.equipment.findUnique({
                 where: { id: item.equipmentId },
@@ -36,13 +42,33 @@ let BorrowRequestService = class BorrowRequestService {
                 throw new common_1.BadRequestException(`Không đủ số lượng cho thiết bị ${equipment.name}. Còn lại: ${equipment.availableQuantity}, Yêu cầu: ${item.quantity}`);
             }
         }
+        const isCollaborator = user.role === client_1.Role.COLLABORATOR;
+        const status = isCollaborator ? client_1.RequestStatus.APPROVED : client_1.RequestStatus.PENDING;
+        if (isCollaborator) {
+            for (const item of dto.equipments) {
+                const equipment = await this.prisma.equipment.findUnique({
+                    where: { id: item.equipmentId },
+                });
+                if (equipment) {
+                    const newAvailable = equipment.availableQuantity - item.quantity;
+                    const newStatus = newAvailable === 0 ? client_1.EquipmentStatus.BORROWED : equipment.status;
+                    await this.prisma.equipment.update({
+                        where: { id: item.equipmentId },
+                        data: {
+                            availableQuantity: newAvailable,
+                            status: newStatus,
+                        },
+                    });
+                }
+            }
+        }
         return this.prisma.borrowRequest.create({
             data: {
                 userId,
                 purpose: dto.purpose,
                 borrowDate: new Date(dto.borrowDate),
                 returnDate: new Date(dto.returnDate),
-                status: client_1.RequestStatus.PENDING,
+                status,
                 equipments: dto.equipments,
             },
             include: {

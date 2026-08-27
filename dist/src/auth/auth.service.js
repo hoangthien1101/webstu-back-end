@@ -251,6 +251,29 @@ let AuthService = class AuthService {
             },
         };
     }
+    async createUserByAdmin(dto) {
+        const existingUser = await this.prisma.user.findFirst({
+            where: { email: dto.email },
+        });
+        if (existingUser) {
+            throw new common_1.BadRequestException('Email đã tồn tại');
+        }
+        const employeeCode = `EMP${Date.now().toString().slice(-6)}${Math.floor(1000 + Math.random() * 9000)}`;
+        const hashedPassword = await bcrypt.hash(dto.password, 10);
+        const user = await this.prisma.user.create({
+            data: {
+                fullName: dto.name,
+                email: dto.email,
+                password: hashedPassword,
+                employeeCode,
+                role: dto.role,
+                phone: dto.phone || null,
+                isActive: true,
+            },
+        });
+        const { password, ...result } = user;
+        return result;
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([

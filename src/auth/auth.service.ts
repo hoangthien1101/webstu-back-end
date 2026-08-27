@@ -3,6 +3,7 @@ import { MailService } from '../mail/mail.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { CreateUserByAdminDto } from './dto/create-user-by-admin.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Role } from '@prisma/client';
@@ -219,5 +220,33 @@ export class AuthService {
         avatarUrl: updatedUser.avatarUrl,
       },
     };
+  }
+
+  async createUserByAdmin(dto: CreateUserByAdminDto) {
+    const existingUser = await this.prisma.user.findFirst({
+      where: { email: dto.email },
+    });
+    if (existingUser) {
+      throw new BadRequestException('Email đã tồn tại');
+    }
+
+    // Auto-generate employeeCode since it is unique and required by Prisma
+    const employeeCode = `EMP${Date.now().toString().slice(-6)}${Math.floor(1000 + Math.random() * 9000)}`;
+
+    const hashedPassword = await bcrypt.hash(dto.password, 10);
+    const user = await this.prisma.user.create({
+      data: {
+        fullName: dto.name,
+        email: dto.email,
+        password: hashedPassword,
+        employeeCode,
+        role: dto.role,
+        phone: dto.phone || null,
+        isActive: true, // Admin-created accounts are active immediately
+      },
+    });
+
+    const { password, ...result } = user;
+    return result;
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateBorrowRequestDto } from './dto/create-borrow-request.dto';
-import { RequestStatus, EquipmentStatus } from '@prisma/client';
+import { RequestStatus, EquipmentStatus, Role } from '@prisma/client';
 
 @Injectable()
 export class BorrowRequestService {
@@ -10,6 +10,13 @@ export class BorrowRequestService {
   async create(userId: string, dto: CreateBorrowRequestDto) {
     if (new Date(dto.borrowDate) >= new Date(dto.returnDate)) {
       throw new BadRequestException('Ngày trả phải sau ngày mượn');
+    }
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+    if (!user) {
+      throw new BadRequestException('Không tìm thấy người dùng');
     }
 
     for (const item of dto.equipments) {
@@ -32,13 +39,37 @@ export class BorrowRequestService {
       }
     }
 
+    const isCollaborator = user.role === Role.COLLABORATOR;
+    const status = isCollaborator ? RequestStatus.APPROVED : RequestStatus.PENDING;
+
+    if (isCollaborator) {
+      for (const item of dto.equipments) {
+        const equipment = await this.prisma.equipment.findUnique({
+          where: { id: item.equipmentId },
+        });
+
+        if (equipment) {
+          const newAvailable = equipment.availableQuantity - item.quantity;
+          const newStatus = newAvailable === 0 ? EquipmentStatus.BORROWED : equipment.status;
+
+          await this.prisma.equipment.update({
+            where: { id: item.equipmentId },
+            data: {
+              availableQuantity: newAvailable,
+              status: newStatus,
+            },
+          });
+        }
+      }
+    }
+
     return this.prisma.borrowRequest.create({
       data: {
         userId,
         purpose: dto.purpose,
         borrowDate: new Date(dto.borrowDate),
         returnDate: new Date(dto.returnDate),
-        status: RequestStatus.PENDING,
+        status,
         equipments: dto.equipments,
       },
       include: {
